@@ -1,10 +1,19 @@
 import { useState } from 'react'
+import AppHeader from '../Navigation/Navigation'
+import { Routes, Route } from 'react-router';
 // import './App.css'
+import Homepage from '../../pages/HomePage/HomePage';
+import MoviesPage from '../../pages/MoviesPage/MoviesPage';
 
 export default function App (){
   return (
-    <>
-    <h1>Welcome to us</h1>
-    </>
+    <div>
+      <AppHeader />
+      <Routes>
+        <Route path="/" element={<Homepage />}></Route>
+        <Route path="/movies" element={<MoviesPage />}></Route>
+
+      </Routes>
+    </div>
   )
 }
