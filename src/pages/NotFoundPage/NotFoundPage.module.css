@@ -1,0 +1,10 @@
+.container {
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.error {
+    color: rgb(4, 122, 107);
+    font-size: 45px;
+    font-weight: 600; 
+}
