@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"; 
 import { useParams, NavLink, Outlet } from "react-router";
 import { fetchMoviesById } from "../../MovieService";
-import Movie from "../../components/Movie/Movie"
+import Movie from "../../components/Movie/Movie";
+
 
 export default function MovieDetailPage (){
     const {movieId} = useParams();
@@ -39,7 +40,7 @@ export default function MovieDetailPage (){
                     <NavLink to="cast"> Cast</NavLink>
                 </li>
                 <li>
-                    <NavLink to="reviews"> Reviews</NavLink>
+                    <NavLink to="reviews" > Reviews</NavLink>
                 </li>
             </ul>
             <Outlet />
