@@ -11,7 +11,7 @@ export default function MovieDetailPage (){
     const [isLoader, setIsLoader] = useState(false);
     const [error, setError] = useState(false);
     const location = useLocation();
-    const backLinkHref = useRef(location.state?.from ?? "/movies");
+    const backLinkHref = useRef(location.state ?? "/movies");
     const prevHref = useRef(null);
     const backLink = backLinkHref.current;
 
