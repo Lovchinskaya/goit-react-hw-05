@@ -4,11 +4,11 @@ import css from "./MovieList.module.css"
 
 
 export default function MovieList ( { movies }){
-   
+    const location = useLocation();
     return (
             <ul className={css.container}>
                 {movies.map((movie) => {
-                     const location = useLocation();
+                    
                     return (
                         <li key={movie.id} className={css.item}>
                             <Link to={`/movies/${movie.id}`} state={location}>{movie.title}</Link>

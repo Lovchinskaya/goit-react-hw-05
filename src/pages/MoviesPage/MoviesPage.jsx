@@ -36,9 +36,6 @@ export default function MoviesPage(){
     fetchData();
   }, [searchQuery, page]);
 
-//   const onLoadMore = () => {
-//     setPage((prevPage) => prevPage + 1);
-//   };
 
   const onSearch = (value) => {
     setMovies([]);
@@ -53,8 +50,7 @@ export default function MoviesPage(){
       <MovieForm onSearch={onSearch} />
       {loading && <div>Loading trending movies...</div>}
       {error && <div>Whoops, there are no such movies </div>}
-      {movies.length > 0 && <MovieList movies={movies} />}
-      {/* {isVisible && !loading && <LoadMoreBtn onLoadMore={onLoadMore} />} */}
+      {movies.length > 0 && <MovieList movies={movies}/>}
       {isEmpty && !loading && movies.length < 1 && (
         <p className={css.text}>Sorry, but there are no results</p>
       )}
