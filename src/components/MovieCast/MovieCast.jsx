@@ -39,7 +39,7 @@ export default function MovieCast (){
           <div key={cast.id} className={css.wrap}>
             <img
               className={css.img}
-              src={cast.profile_path}
+              src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
             />
           <h3 className={css.title}>{cast.name}</h3>
         </div>

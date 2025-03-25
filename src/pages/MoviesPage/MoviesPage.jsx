@@ -1,73 +1,64 @@
 import { useState, useEffect } from "react"
 import { searchMovie } from "../../MovieService";
 import  MovieList  from "../../components/MovieList/MovieList"
-import { Formik, Form, Field} from 'formik';
 import toast from 'react-hot-toast';
 import css from './MoviesPage.module.css'
 import { useSearchParams } from "react-router";
+import MovieForm from '../../components/MovieForm/MovieForm'
 
 export default function MoviesPage(){
-    const [movies, setMovie] = useState([]);
-    const [isLoader, setIsLoader] = useState(false);
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const [searchParams, setSerachParams] = useSearchParams();
+    const [isVisible, setIsVisible] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("query");
 
-    useEffect(() => {
-        async function getMovies(){
-            try { 
-                setIsLoader(true);  
-                setError(false);    
-                const data = await searchMovie();
-                setMovie(data);
-                
-            }
-            catch{
-                setError(true);
-            } finally {
-                setIsLoader(false);
-            }
-        }
-        getMovies();
-    }, [])
+  useEffect(() => {
+    if (!searchQuery) return;
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+        const data = await searchMovie(searchQuery, page);
+        setMovies((prevsMovies) => [...prevsMovies, ...data.results]);
+        setIsVisible(page < data.total_pages);
+      } catch (error) {
+        setError(error);
+        toast.error("Whoops, something went wrong!");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [searchQuery, page]);
+
+//   const onLoadMore = () => {
+//     setPage((prevPage) => prevPage + 1);
+//   };
+
+  const onSearch = (value) => {
+    setMovies([]);
+    setIsEmpty(true);
+    setPage(1);
+    setSearchParams({ query: value });
+  };
+
     return (
-        <>
-         {isLoader && <div>Loading trending movies...</div>}
-         {error && <div>Whoops, there are no such movies </div>}
-         <div className={css.formcontainer}>
-        <Formik 
-        initialValues={{
-            topic: ''
-        }}
-        onSubmit={(values, actions) =>{
-            if (values.topic.trim() === '') {
-                toast.error('Please enter something for seach.', {
-                  duration: 1750,
-                  position: 'top-center',
-                  className: `${css['custom-toast-error']} ${css['info']}`,
-                });
-                return;
-              }
-            onSubmit(values.topic)
-            actions.resetForm();
-        }}
-        >
-        <Form className={css.formsearch}>
-          <Field
-          className ={css.forminput}
-          type="text"
-          name="topic"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search movies you like"
-        />
-        <button type="submit"        
-        className={css.formbtn}>Search</button>
-      </Form>
-        </Formik>
-        </div>
-       
-        </>    
+        <div className={css.container}>
+      <p className={css.text}>Enter movie title</p>
+      <MovieForm onSearch={onSearch} />
+      {loading && <div>Loading trending movies...</div>}
+      {error && <div>Whoops, there are no such movies </div>}
+      {movies.length > 0 && <MovieList movies={movies} />}
+      {/* {isVisible && !loading && <LoadMoreBtn onLoadMore={onLoadMore} />} */}
+      {isEmpty && !loading && movies.length < 1 && (
+        <p className={css.text}>Sorry, but there are no results</p>
+      )}
+    </div>  
         
     )
 } 

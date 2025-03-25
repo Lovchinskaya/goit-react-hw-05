@@ -32,13 +32,15 @@ export default function MovieReview (){
         {error && <b>Whoops there was an error, plz reload the page...</b>}
         <div className={css.container}>
       <h3 className={css.header}>Movie Reviews</h3>
-      {reviews.length > 0 &&
+      {reviews.length > 0 ?
         reviews.map((review) => (
           <div key={review.id} className={css.review}>
             <h3 className={css.title}>{review.author}</h3>
             <p className={css.body}>{review.content}</p>
           </div>
-        ))}
+        ))  : (
+            <p className={css.title}>Sorry, there are no results.</p>
+          )}
     </div>
         </>
         

@@ -11,8 +11,9 @@ export default function Movie ({movie}) {
           src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
         />
       </div>
-      <h3 className={css.title}>{movie.title}</h3>
+      
       <div className={css.listFlex}>
+      <h3 className={css.title}>{movie.title}</h3>
         <p className={css.description}>{movie.overview}</p>
         <p className={css.text}>Release date: {movie.release_date}</p>
         <p className={css.text}>Runtime: {movie.runtime}</p>
@@ -20,7 +21,7 @@ export default function Movie ({movie}) {
           Rating: {movie.vote_average} <FaStar />
         </p>
         <div className={css.listWrap}>
-          <p className={css.text}>Genres:</p>
+          <p className={css.text.genre}>Genres:</p>
           <ul className={css.list}>
             {movie.genres.map((genre) => (
               <li key={genre.id} className={css.item}>
